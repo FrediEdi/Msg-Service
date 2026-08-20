@@ -8,14 +8,34 @@ db = mysql.connector.connect(
     port = "3306"
 )
 
+
 if db.is_connected():
     print("live");
 
 cursor = db.cursor();
 
-cursor.execute("select * from msg");
 
-rows = cursor.fetchall();
-for row in rows:
-    print(row);
 
+class DBClient:
+
+    def Create(title : str, msg : str):
+        query = "INSERT INTO msg (Title, Message) VALUES (%s, %s)"
+        cursor.execute(query, (title, msg))
+        db.commit();
+        print("create", title, msg);
+
+    def Read(arg : str): # Done
+        cursor.execute("select * from msg");
+        return cursor.fetchall();
+
+    def Update(id : str, title : str, msg : str):
+        query = "UPDATE msg SET Title = %s, Message = %s WHERE ID = %s"
+        cursor.execute(query, (title, msg, id))
+        db.commit();
+        print("updateing:", id);
+
+    def Delete(id : str):
+        query = "DELETE FROM msg WHERE ID = %s"
+        cursor.execute(query, (id,))
+        db.commit();
+        print("deleting:", id);
