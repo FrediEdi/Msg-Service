@@ -6,8 +6,6 @@ from dataAccess import DBClient
 
 
 
-
-
 funclib = {
     "create": DBClient.Create,
     "read": DBClient.Read,
